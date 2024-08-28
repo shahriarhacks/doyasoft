@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import asyncHandler from "../../../shared/async.handler";
 import ApiError from "../../../errors/api.error";
-import { uploadOnCloudinary } from "../../../shared/cloudinary";
+import {
+  deleteFromCloudinary,
+  uploadOnCloudinary,
+} from "../../../shared/cloudinary";
 import { Header } from "./header.model";
 import resSender from "../../../shared/res.sender";
 import { IHeader } from "./header.interface";
@@ -24,22 +27,6 @@ const create = asyncHandler(async (req: Request, res: Response) => {
     blogUrl,
   } = req.body;
 
-  console.log(
-    logoAlt,
-    logoUrl,
-    homeUrl,
-    aboutUrl,
-    serviceUrl,
-    contactUrl,
-    sideButton,
-    sideUrl,
-    home,
-    about,
-    service,
-    contact,
-    blog,
-    blogUrl
-  );
   if (
     [
       logoAlt,
@@ -134,6 +121,32 @@ const update = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
+const updateLogo = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const logoLocalPath = req.file?.path;
+  if (!logoLocalPath) {
+    throw new ApiError(400, "Logo is required");
+  }
+  const logo = await uploadOnCloudinary(logoLocalPath);
+  if (!logo) {
+    throw new ApiError(500, "Failed to upload logo");
+  }
+  const header = await Header.findById({ _id: id });
+  if (!header) {
+    throw new ApiError(404, "Header not found");
+  }
+  await deleteFromCloudinary(header.logo.src);
+
+  header.logo.src = logo.url;
+  await header.save();
+  resSender<IHeader>(res, {
+    statusCode: 200,
+    success: true,
+    message: "Logo updated successfully",
+    data: header,
+  });
+});
+
 const vanish = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const header = await Header.deleteOne({ _id: id }).lean();
@@ -144,4 +157,4 @@ const vanish = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-export const headerController = { create, read, update, vanish };
+export const headerController = { create, read, update, vanish, updateLogo };

@@ -13,4 +13,8 @@ router
   .patch(headerController.update)
   .delete(headerController.vanish);
 
+router
+  .route("/logo/:id")
+  .patch(upload.single("logo"), headerController.updateLogo);
+
 export const headerRoute = router;
