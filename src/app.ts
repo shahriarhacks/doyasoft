@@ -3,6 +3,7 @@ import cors from "cors";
 import { config } from "./config";
 import resSender from "./shared/res.sender";
 import { globalErrorHandler } from "./middlewares/global.error.handler";
+import { router } from "./app/routes";
 
 export const app = express();
 
@@ -17,7 +18,20 @@ app.use(express.json({ limit: "32kb" }));
 app.use(express.urlencoded({ extended: true, limit: "32kb" }));
 app.use(express.static("public"));
 
+// Routes calling
+app.use("/api/v1", router);
+
+// Default route
 app.get("/", (_req, res) => {
+  resSender(res, {
+    statusCode: 200,
+    success: true,
+    message: "Welcome to Doyasoft API Server!",
+  });
+});
+
+// Health route
+app.get("/health", (_req, res) => {
   resSender(res, {
     statusCode: 200,
     success: true,

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IHeader, INavItem } from "./header/header.interface";
+import { IHeader, INavItem } from "./header.interface";
 
 const navItemSchema = new mongoose.Schema<INavItem>({
   name: {
