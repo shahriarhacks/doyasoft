@@ -5,7 +5,9 @@
   "main": "src/server.ts",
   "scripts": {
     "dev:nodemon": "nodemon -L --exec ts-node -- ./src/server.ts",
-    "dev": "nodemon ./src/server.ts"
+    "dev": "nodemon ./src/server.ts",
+    "start": "node ./dist/server.js",
+    "build": "tsc"
   },
   "keywords": [
     "doyasoft"
