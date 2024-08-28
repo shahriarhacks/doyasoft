@@ -112,4 +112,36 @@ const create = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-export const headerController = { create };
+const read = asyncHandler(async (req: Request, res: Response) => {
+  const header = await Header.findOne();
+  resSender<IHeader>(res, {
+    statusCode: 200,
+    success: true,
+    message: "Header fetched successfully",
+    data: header,
+  });
+});
+
+const update = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { ...data } = req.body;
+  const header = await Header.findByIdAndUpdate(id, data, { new: true });
+  resSender<IHeader>(res, {
+    statusCode: 200,
+    success: true,
+    message: "Header updated successfully",
+    data: header,
+  });
+});
+
+const vanish = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const header = await Header.deleteOne({ _id: id }).lean();
+  resSender<IHeader>(res, {
+    statusCode: 200,
+    success: true,
+    message: "Header vanished successfully",
+  });
+});
+
+export const headerController = { create, read, update, vanish };
