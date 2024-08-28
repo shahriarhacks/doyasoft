@@ -1,7 +1,8 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import { config } from "./config";
 import resSender from "./shared/res.sender";
+import { globalErrorHandler } from "./middlewares/global.error.handler";
 
 export const app = express();
 
@@ -22,4 +23,22 @@ app.get("/", (_req, res) => {
     success: true,
     message: "Welcome to Doyasoft API Server!",
   });
+});
+
+// Global Error handler
+app.use(globalErrorHandler);
+
+//handle not found
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.status(404).json({
+    success: false,
+    message: "Not Found",
+    errorMessages: [
+      {
+        path: req.originalUrl,
+        message: "API url path not found",
+      },
+    ],
+  });
+  next();
 });
