@@ -3,7 +3,6 @@ import asyncHandler from "../../../shared/async.handler";
 import ApiError from "../../../errors/api.error";
 import { File } from "../../../interfaces/files.type";
 import { uploadOnCloudinary } from "../../../shared/cloudinary";
-import { UploadApiResponse } from "cloudinary";
 import { Hero } from "./hero.model";
 import resSender from "../../../shared/res.sender";
 
@@ -98,4 +97,14 @@ const create = asyncHandler(async (req: RequestWithFiles, res: Response) => {
   });
 });
 
-export const heroController = { create };
+const read = asyncHandler(async (req: Request, res: Response) => {
+  const hero = await Hero.findOne();
+  resSender(res, {
+    statusCode: 200,
+    success: true,
+    message: "Hero fetched successfully",
+    data: hero,
+  });
+});
+
+export const heroController = { create, read };
