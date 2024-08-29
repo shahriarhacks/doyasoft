@@ -149,7 +149,9 @@ const updateLogo = asyncHandler(async (req: Request, res: Response) => {
 
 const vanish = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const header = await Header.deleteOne({ _id: id }).lean();
+  const header = await Header.findById({ _id: id });
+  header && (await deleteFromCloudinary(header.logo.src));
+  const deletedHeader = await Header.deleteOne({ _id: id }).lean();
   resSender<IHeader>(res, {
     statusCode: 200,
     success: true,

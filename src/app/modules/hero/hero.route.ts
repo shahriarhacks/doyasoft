@@ -17,6 +17,27 @@ router
   )
   .get(heroController.read);
 
-router.route("/:id").patch(heroController.update);
+router.route("/:id").patch(heroController.update).delete(heroController.vanish);
+
+router.patch(
+  "/update/banner/:id",
+  upload.single("banner"),
+  heroController.updateBanner
+);
+router.patch(
+  "/update/back-banner/:id",
+  upload.single("backgroundBanner"),
+  heroController.updateBackgroundBanner
+);
+router.patch(
+  "/update/spider/:id",
+  upload.single("spiderBackground"),
+  heroController.updateSpiderBackground
+);
+router.patch(
+  "/update/play-button/:id",
+  upload.single("playButton"),
+  heroController.updatePlayButton
+);
 
 export const heroRoute = router;
