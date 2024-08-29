@@ -8,7 +8,7 @@ import { Hero } from "./hero.model";
 import resSender from "../../../shared/res.sender";
 
 // Define types for the request
-interface RequestWithFiles extends Request {
+export interface RequestWithFiles extends Request {
   files?: { [key: string]: File[] } | File[] | any;
 }
 
