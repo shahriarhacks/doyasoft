@@ -17,4 +17,6 @@ router
   )
   .get(heroController.read);
 
+router.route("/:id").patch(heroController.update);
+
 export const heroRoute = router;

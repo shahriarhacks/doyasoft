@@ -107,4 +107,16 @@ const read = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-export const heroController = { create, read };
+const update = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { ...data } = req.body;
+  const hero = await Hero.findByIdAndUpdate(id, data, { new: true });
+  resSender(res, {
+    statusCode: 200,
+    success: true,
+    message: "Hero updated successfully",
+    data: hero,
+  });
+});
+
+export const heroController = { create, read, update };
