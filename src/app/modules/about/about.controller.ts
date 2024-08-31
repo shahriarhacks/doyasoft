@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import asyncHandler from "../../../shared/async.handler";
 import { File, RequestWithFiles } from "../../../interfaces/files.type";
 import ApiError from "../../../errors/api.error";
@@ -193,4 +193,26 @@ const create = asyncHandler(async (req: RequestWithFiles, res: Response) => {
   });
 });
 
-export const aboutController = { create };
+const read = asyncHandler(async (req: Request, res: Response) => {
+  const about = await About.findOne();
+  resSender<IAbout>(res, {
+    statusCode: 200,
+    success: true,
+    message: "About fetched successfully",
+    data: about,
+  });
+});
+
+const update = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { ...data } = req.body;
+  const about = await About.findByIdAndUpdate(id, data, { new: true });
+  resSender<IAbout>(res, {
+    statusCode: 200,
+    success: true,
+    message: "About updated successfully",
+    data: about,
+  });
+});
+
+export const aboutController = { create, read, update };
