@@ -26,6 +26,9 @@ router
   )
   .get(aboutController.read);
 
-router.route("/:id").patch(aboutController.update);
+router
+  .route("/:id")
+  .patch(aboutController.update)
+  .delete(aboutController.vanish);
 
 export const aboutRoute = router;

@@ -231,12 +231,14 @@ const updatePlayButton = asyncHandler(async (req: Request, res: Response) => {
 const vanish = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const hero = await Hero.findById({ _id: id });
-  if (hero) {
-    await deleteFromCloudinary(hero.banner.src);
-    await deleteFromCloudinary(hero.backgroundBanner.src);
-    await deleteFromCloudinary(hero.spiderBackground.src);
-    await deleteFromCloudinary(hero.playButton.src);
+  if (!hero) {
+    throw new ApiError(404, "Hero not found");
   }
+  await deleteFromCloudinary(hero.banner.src);
+  await deleteFromCloudinary(hero.backgroundBanner.src);
+  await deleteFromCloudinary(hero.spiderBackground.src);
+  await deleteFromCloudinary(hero.playButton.src);
+
   const heros = await Hero.deleteOne({ _id: id }).lean();
   resSender<IHero>(res, {
     statusCode: 200,

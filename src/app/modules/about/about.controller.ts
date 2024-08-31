@@ -2,7 +2,10 @@ import { Request, Response } from "express";
 import asyncHandler from "../../../shared/async.handler";
 import { File, RequestWithFiles } from "../../../interfaces/files.type";
 import ApiError from "../../../errors/api.error";
-import { uploadOnCloudinary } from "../../../shared/cloudinary";
+import {
+  deleteFromCloudinary,
+  uploadOnCloudinary,
+} from "../../../shared/cloudinary";
 import { About } from "./about.model";
 import resSender from "../../../shared/res.sender";
 import { IAbout } from "./about.interface";
@@ -215,4 +218,37 @@ const update = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-export const aboutController = { create, read, update };
+const vanish = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const about = await About.findById(id);
+  if (!about) {
+    throw new ApiError(404, "About not found");
+  }
+  await deleteFromCloudinary(about?.leftImage?.src);
+  await deleteFromCloudinary(about?.rightImage?.src);
+  await deleteFromCloudinary(about?.playButton?.src);
+  await deleteFromCloudinary(about?.dotShape?.src);
+  await deleteFromCloudinary(about?.circleShape?.src);
+  await deleteFromCloudinary(about?.rectangleShape?.src);
+  await deleteFromCloudinary(about?.layShape?.src);
+
+  await deleteFromCloudinary(about?.director?.image?.src);
+  await deleteFromCloudinary(about?.director?.sign?.src);
+
+  await deleteFromCloudinary(about?.services[0]?.image?.src);
+  await deleteFromCloudinary(about?.services[1]?.image?.src);
+  await deleteFromCloudinary(about?.services[2]?.image?.src);
+  await deleteFromCloudinary(about?.services[3]?.image?.src);
+
+  const aboutD = await About.findByIdAndDelete(id);
+
+  resSender<IAbout>(res, {
+    statusCode: 200,
+    success: true,
+    message: "About vanished successfully",
+    data: aboutD,
+  });
+});
+
+export const aboutController = { create, read, update, vanish };
