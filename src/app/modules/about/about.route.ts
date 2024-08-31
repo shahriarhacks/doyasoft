@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { upload } from "../../../middlewares/multer.middleware";
+import { aboutController } from "./about.controller";
 
 const router = Router();
 
@@ -16,7 +17,10 @@ router.route("/").post(
     { name: "circleShape", maxCount: 1 },
     { name: "rectangleShape", maxCount: 1 },
     { name: "layShape", maxCount: 1 },
-  ])
+    { name: "directorImage", maxCount: 1 },
+    { name: "directorSign", maxCount: 1 },
+  ]),
+  aboutController.create
 );
 
 export const aboutRoute = router;
