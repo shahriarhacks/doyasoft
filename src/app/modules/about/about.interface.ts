@@ -17,7 +17,7 @@ export interface IAbout {
 }
 
 export interface IService {
-  title: string;
+  name: string;
   image: IImage;
 }
 export interface IDirector {

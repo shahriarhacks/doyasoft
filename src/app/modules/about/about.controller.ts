@@ -114,28 +114,28 @@ const create = asyncHandler(async (req: RequestWithFiles, res: Response) => {
         name: service1,
         image: {
           src: service1Icon?.url,
-          alt: service2Icon?.fieldname,
+          alt: service2IconLocal?.fieldname,
         },
       },
       {
         name: service2,
         image: {
           src: service2Icon?.url,
-          alt: service2Icon?.fieldname,
+          alt: service2IconLocal?.fieldname,
         },
       },
       {
         name: service3,
         image: {
           src: service3Icon?.url,
-          alt: service2Icon?.fieldname,
+          alt: service2IconLocal?.fieldname,
         },
       },
       {
         name: service4,
         image: {
           src: service4Icon?.url,
-          alt: service2Icon?.fieldname,
+          alt: service2IconLocal?.fieldname,
         },
       },
     ],
@@ -144,40 +144,44 @@ const create = asyncHandler(async (req: RequestWithFiles, res: Response) => {
       designation: directorDesignation,
       image: {
         src: directorImage?.url,
-        alt: directorImage?.fieldname,
+        alt: directorImageLocal?.fieldname,
       },
       sign: {
         src: directorSign?.url,
-        alt: directorSign?.fieldname,
+        alt: directorSignLocal?.fieldname,
       },
+    },
+    button: {
+      name: button,
+      url: buttonUrl,
     },
     leftImage: {
       src: leftImage?.url,
-      alt: leftImage?.fieldname,
+      alt: leftImageLocal?.fieldname,
     },
     rightImage: {
       src: rightImage?.url,
-      alt: rightImage?.fieldname,
+      alt: rightImageLocal?.fieldname,
     },
     playButton: {
       src: playButton?.url,
-      alt: playButton?.fieldname,
+      alt: playButtonLocal?.fieldname,
     },
     dotShape: {
       src: dotShape?.url,
-      alt: dotShape?.fieldname,
+      alt: dotShapeLocal?.fieldname,
     },
     circleShape: {
       src: circleShape?.url,
-      alt: circleShape?.fieldname,
+      alt: circleShapeLocal?.fieldname,
     },
     rectangleShape: {
       src: rectangleShape?.url,
-      alt: rectangleShape?.fieldname,
+      alt: rectangleShapeLocal?.fieldname,
     },
     layShape: {
       src: layShape?.url,
-      alt: layShape?.fieldname,
+      alt: layShapeLocal?.fieldname,
     },
   };
   const about = await About.create(aboutData);
