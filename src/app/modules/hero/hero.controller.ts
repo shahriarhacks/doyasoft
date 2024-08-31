@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import asyncHandler from "../../../shared/async.handler";
 import ApiError from "../../../errors/api.error";
-import { File } from "../../../interfaces/files.type";
+import { File, RequestWithFiles } from "../../../interfaces/files.type";
 import {
   deleteFromCloudinary,
   uploadOnCloudinary,
@@ -11,9 +11,6 @@ import resSender from "../../../shared/res.sender";
 import { IHero } from "./hero.interface";
 
 // Define types for the request
-export interface RequestWithFiles extends Request {
-  files?: { [key: string]: File[] } | File[] | any;
-}
 
 const create = asyncHandler(async (req: RequestWithFiles, res: Response) => {
   const {
