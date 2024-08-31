@@ -38,10 +38,10 @@ const create = asyncHandler(async (req: RequestWithFiles, res: Response) => {
   ) {
     throw new ApiError(400, "Please fill all the fields");
   }
-  const service1IconLocal: File | undefined = req.files?.webIcon[0];
-  const service2IconLocal: File | undefined = req.files?.appIcon[0];
-  const service3IconLocal: File | undefined = req.files?.uiIcon[0];
-  const service4IconLocal: File | undefined = req.files?.ppsIcon[0];
+  const service1IconLocal: File | undefined = req.files?.service1[0];
+  const service2IconLocal: File | undefined = req.files?.service2[0];
+  const service3IconLocal: File | undefined = req.files?.service3[0];
+  const service4IconLocal: File | undefined = req.files?.service4[0];
   const leftImageLocal: File | undefined = req.files?.leftImage[0];
   const rightImageLocal: File | undefined = req.files?.rightImage[0];
   const playButtonLocal: File | undefined = req.files?.playButton[0];
