@@ -4,7 +4,7 @@ import { config } from "../config";
 export const connectDB = async () => {
   try {
     const connectionInstance = await mongoose.connect(
-      `${config.mongo_uri}/${config.db_name}`
+      `${config.mongo_uri}/doyasoft`
     );
     console.log(
       `MONGODB connected !! DB HOST ${connectionInstance.connection.host}`

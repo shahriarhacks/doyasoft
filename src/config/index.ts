@@ -8,7 +8,6 @@ const _config = {
   port: process.env.PORT,
   cors_origin: process.env.CORS_ORIGIN,
   mongo_uri: process.env.MONGO_CONNECTION_STRING,
-  db_name: process.env.DB_NAME,
   CLOUDINARY: {
     API_KEY: process.env.CLOUDINARY_API_KEY,
     API_SECRET: process.env.CLOUDINARY_API_SECRET,
